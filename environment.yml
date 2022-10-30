@@ -25,6 +25,8 @@ dependencies:
   - absl-py
   - future
   - tqdm
+  - psycopg2
+  - pyyaml
   - pip
   - pip:
     - -e .  # install package in development mode
