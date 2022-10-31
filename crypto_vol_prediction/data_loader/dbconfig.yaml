@@ -3,5 +3,5 @@ connections:
         hostname: 71.127.210.74
         port: 5433
         dbname: cs230
-        user: cs230
-        password: cs230
+        user: <user>
+        password: <password>
