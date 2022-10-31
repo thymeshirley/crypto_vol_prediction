@@ -35,7 +35,7 @@ class UniswapV2SwapTranLoader(DataLoaderBase):
                 connection_str = f"host={hostname} port={port} dbname={dbname} user={user} password={password} sslmode=disable"
                 with psycopg2.connect(connection_str) as conn:
                     cur = conn.cursor()
-                    query = """SELECT * FROM public.uniswap_v2_swap_transactions LIMIT 100"""
+                    query = """SELECT * FROM public.uniswap_v2_swap_transactions"""
                     output_query = f"COPY ({query}) TO STDOUT WITH CSV HEADER"
                     with open(self.data_cache_path, 'w') as cache_file:
                         cur.copy_expert(output_query, cache_file)
