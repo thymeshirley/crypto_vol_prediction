@@ -9,6 +9,7 @@ import os
 os.chdir('/Users/laixu/Documents/Machine Learning CS230/project/crypto_vol_prediction/')
 import pandas as pd
 import numpy as np
+from scipy.stats.mstats import winsorize
 tmp = pd.read_csv('UniswapV2SwapTranLoader_dummy.csv')
 
 # there are rows that are all zeros. for in/pout amount0 and amount1 filter out those rows
@@ -51,3 +52,21 @@ def price_grouping(time_interval, price_df):
 # you can use the grouping function to abitrarily adjust what kind of interval you want
 price_df_10min = price_grouping('10min', price_df)
 price_df_10min.to_csv('./processed_data/price_df_10mins.csv')
+
+def remove_extreme(log_ret):
+    log_ret[log_ret>1] = 0
+    log_ret[log_ret<-1] = 0
+    return log_ret
+
+def get_log_ret(price_df, field):
+    price_df[field] = price_df[field].fillna(method='ffill')
+    log_ret = np.log(price_df[field])-np.log(price_df[field].shift(1))
+    return log_ret
+
+def get_vol(log_ret, annualization_factor):
+    if annualization_factor = 'True':
+        
+    return log_ret
+
+log_ret_last =  get_log_ret(price_df_10min , 'last')
+log_ret_last = remove_extreme(log_ret_last )
