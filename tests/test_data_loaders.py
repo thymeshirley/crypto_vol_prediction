@@ -1,7 +1,9 @@
+
+import os
+import sys
+os.chdir('/Users/laixu/Documents/Machine Learning CS230/project/crypto_vol_prediction/')
 from crypto_vol_prediction.data_loader import UniswapV2SwapTranLoader
 import pytest
-import os
-
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
