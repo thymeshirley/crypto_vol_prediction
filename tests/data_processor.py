@@ -63,10 +63,14 @@ def get_log_ret(price_df, field):
     log_ret = np.log(price_df[field])-np.log(price_df[field].shift(1))
     return log_ret
 
-def get_vol(log_ret, annualization_factor):
-    if annualization_factor = 'True':
-        
-    return log_ret
+def get_vol( grouped_df):
+    vol = np.log(grouped_df['max'])- np.log(grouped_df['min'])
+    return vol
 
 log_ret_last =  get_log_ret(price_df_10min , 'last')
 log_ret_last = remove_extreme(log_ret_last )
+log_ret_last.to_csv('./processed_data/log_ret_last_10mins.csv')
+
+vol = get_vol(price_df_10min)
+vol = remove_extreme(vol )
+vol.to_csv('./processed_data/vol_10mins.csv')
