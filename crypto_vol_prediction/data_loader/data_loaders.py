@@ -45,6 +45,39 @@ class UniswapV2SwapTranLoader(DataLoaderBase):
     def get_dataframe(self):
         return pd.read_csv(self.data_cache_path)
 
+
+class AaveV2LiquidityPoolLoader(DataLoaderBase):
+    """
+    Loading Aave V2 LiquidityPool transactions
+    """
+    def __init__(self, data_dir):
+        self.data_dir = data_dir
+        self.data_cache_name = "AaveV2LiquidityPoolLoader"
+        self.data_cache_path = os.path.join(self.data_dir, self.data_cache_name)
+    
+    def refresh_from_remote(self):
+        with open(os.path.join(__location__, "dbconfig.yaml"), "r") as conf_file:
+            try:
+                db_config = yaml.safe_load(conf_file)
+                postgresql_config = db_config['connections']['postgresql']
+                hostname = postgresql_config['hostname']
+                port = postgresql_config['port']
+                dbname = postgresql_config['dbname']
+                user = postgresql_config['user']
+                password = postgresql_config['password']
+                connection_str = f"host={hostname} port={port} dbname={dbname} user={user} password={password} sslmode=disable"
+                with psycopg2.connect(connection_str) as conn:
+                    cur = conn.cursor()
+                    query = """SELECT * FROM public.aave_v2_liquiditypool_activities"""
+                    output_query = f"COPY ({query}) TO STDOUT WITH CSV HEADER"
+                    with open(self.data_cache_path, 'w') as cache_file:
+                        cur.copy_expert(output_query, cache_file)
+            except yaml.YAMLError as e:
+                print(e)
+
+    def get_dataframe(self):
+        return pd.read_csv(self.data_cache_path)
+
 class MnistDataLoader(DataLoaderBase):
     """
     MNIST data loading demo using DataLoaderBase
