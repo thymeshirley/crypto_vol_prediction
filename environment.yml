@@ -18,9 +18,9 @@ dependencies:
   - click
   - jupyter
   - pyyaml
-  - pytorch>=1.1.0
+  - pytorch=1.7.0
   - torchvision
-  - cudatoolkit=10.0
+  - cudatoolkit=11.0
   - tensorboard>=1.14
   - absl-py
   - future
